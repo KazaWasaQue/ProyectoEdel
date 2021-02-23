@@ -1,13 +1,14 @@
 ﻿//True o false
-window.addEventListener('load',validarFormulario);
+window.addEventListener('load', validarFormulario);
 const formulario = document.getElementById("form1");
 const inputs = document.querySelectorAll('#form1 input');
 const select = document.getElementById('ddlSexo');
+var parseData = parseInt(document.getElementById('ddlSexo').value);
 //Regular exprexions 1
 const expresiones = {
-    correo: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/  
+    correo: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 };
-const campos ={
+const campos = {
     dropList: false,
     claveUnica: false,
     nombre: false,
@@ -20,127 +21,127 @@ const campos ={
     fn: false
 };
 //Validacion de Campos
-var validarFormulario = (e) =>{
+var validarFormulario = (e) => {
     console.log(e.target.id);
-   
-    switch(e.target.id){
+
+    switch (e.target.id) {
         case "txtClaveUnica":
             e.target.value = Numeros(e.target.value);
             if (e.target.value.length >= 4) {
-            e.target.value = e.target.value.slice(0, 4);
+                e.target.value = e.target.value.slice(0, 4);
             }
-            if(e.target.value.length < 3 ){
+            if (e.target.value.length < 3) {
                 campos['claveUnica'] = false;
                 document.getElementById("errcu").style.display = "block";
-            }else{
+            } else {
                 campos['claveUnica'] = true;
                 document.getElementById("errcu").style.display = "none";
             }
-        break;
+            break;
         case "txtNombre":
             e.target.value = Letras(e.target.value);
-            if (e.target.value.length >= 15 ) {
-            e.target.value = e.target.value.slice(0, 15);
+            if (e.target.value.length >= 15) {
+                e.target.value = e.target.value.slice(0, 15);
             }
-        if(e.target.value.length < 3){
-            campos['nombre']=false;
-            document.getElementById("errname").style.display = "block";
-        }else{
-            campos['nombre']=false;
-            document.getElementById("errname").style.display = "none";
-        }
-        break;
+            if (e.target.value.length < 3) {
+                campos['nombre'] = false;
+                document.getElementById("errname").style.display = "block";
+            } else {
+                campos['nombre'] = false;
+                document.getElementById("errname").style.display = "none";
+            }
+            break;
         case "txtAPaterno":
             e.target.value = Letras(e.target.value);
-            if (e.target.value.length >= 15 ) {
-            e.target.value = e.target.value.slice(0, 15);
+            if (e.target.value.length >= 15) {
+                e.target.value = e.target.value.slice(0, 15);
             }
-            if(e.target.value.length < 3){
+            if (e.target.value.length < 3) {
                 campos['aPaterno'] = false;
                 document.getElementById("errpate").style.display = "block";
-            }else{
+            } else {
                 campos['aPaterno'] = true;
                 document.getElementById("errpate").style.display = "none";
             }
-        break;
+            break;
         case "txtAMaterno":
             e.target.value = Letras(e.target.value);
-            if (e.target.value.length >= 15 ) {
-            e.target.value = e.target.value.slice(0, 15);
+            if (e.target.value.length >= 15) {
+                e.target.value = e.target.value.slice(0, 15);
             }
-            if(e.target.value.length < 3){
+            if (e.target.value.length < 3) {
                 campos['aMaterno'] = false;
                 document.getElementById("errap").style.display = "block";
-            }else{
+            } else {
                 campos['aMaterno'] = true;
                 document.getElementById("errap").style.display = "none";
             }
-        break;
+            break;
         case "numeroHermanos":
             e.target.value = Numeros(e.target.value);
-            if (e.target.value.length >= 2 ) {
+            if (e.target.value.length >= 2) {
                 e.target.value = e.target.value.slice(0, 2);
             }
-            if(e.target.value.length < 1){
+            if (e.target.value.length < 1) {
                 campos['numHermanos'] = false;
                 document.getElementById("errnh").style.display = "block";
-            }else{
+            } else {
                 campos['numHermanos'] = true;
                 document.getElementById("errnh").style.display = "none";
             }
-        break;
+            break;
         case "correoElectronico":
             console.log(e.target.value);
-            if(expresiones.correo.test(e.target.value)){
+            if (expresiones.correo.test(e.target.value)) {
                 campos['cElectronico'] = true;
                 document.getElementById("errce").style.display = "none";
-            }else{
+            } else {
                 campos['cElectronico'] = false;
                 document.getElementById("errce").style.display = "block";
             }
-        break;
+            break;
         case "rfc":
             e.target.value = NumerosLetras(e.target.value);
-            if (e.target.value.length >= 13 ) {
-            e.target.value = e.target.value.slice(0, 15);
+            if (e.target.value.length >= 13) {
+                e.target.value = e.target.value.slice(0, 15);
             }
-            if (e.target.value.length < 13 ) {
-                campos['rfc'] = false;   
-                document.getElementById("errrfc").style.display = "block";  
-            }else{
+            if (e.target.value.length < 13) {
+                campos['rfc'] = false;
+                document.getElementById("errrfc").style.display = "block";
+            } else {
                 campos['rfc'] = true;
                 document.getElementById("errrfc").style.display = "none";
             }
-                
-        break;
+
+            break;
         case "codigoPostal":
             e.target.value = Numeros(e.target.value);
-            if(e.target.value.length < 5){
+            if (e.target.value.length < 5) {
                 campos['cp'] = false;
                 document.getElementById("errcp").style.display = "block";
-            }else{
+            } else {
                 campos['cp'] = true;
                 document.getElementById("errcp").style.display = "none";
             }
-        break;
+            break;
         case "txtDobDat":
             console.log(e.target.value);
             ValidateDOB(e.target.value);
-        break;
+            break;
     }
 }
-var validarSelect = (e)=>{
+var validarSelect = (e) => {
     console.log(e.target.id);
-    switch(e.target.id){
+    switch (e.target.id) {
         case "ddlSexo":
-            if(e.target.value == "-1"){
-                campos['dropList']=false;
+            if (e.target.value == "-1") {
+                campos['dropList'] = false;
                 document.getElementById("errge").style.display = "block";
-            }else if(e.target.value == "1"){
+            } else if (e.target.value == "1") {
                 campos['dropList'] = true;
                 document.getElementById("errge").style.display = "none";
             }
-        break;
+            break;
     }
 
 }
@@ -156,7 +157,7 @@ function ValidateDOB(fecha) {
         var dtDOB = new Date(parts[1] + "/" + parts[0] + "/" + parts[2]);
         var dtCurrent = new Date();
         if (dtCurrent.getFullYear() - dtDOB.getFullYear() < 18) {
-            document.getElementById("errfecha").style.display = "block";     
+            document.getElementById("errfecha").style.display = "block";
 
             return campos['fn'] = false;
         }
@@ -165,35 +166,35 @@ function ValidateDOB(fecha) {
 
             //CD: 11/06/2018 and DB: 15/07/2000. Will turned 18 on 15/07/2018.
             if (dtCurrent.getMonth() < dtDOB.getMonth()) {
-                document.getElementById("errfecha").style.display = "block";    
+                document.getElementById("errfecha").style.display = "block";
                 return campos['fn'] = false;
             }
             if (dtCurrent.getMonth() == dtDOB.getMonth()) {
                 //CD: 11/06/2018 and DB: 15/06/2000. Will turned 18 on 15/06/2018.
                 if (dtCurrent.getDate() < dtDOB.getDate()) {
-                    document.getElementById("errfecha").style.display = "block";    
+                    document.getElementById("errfecha").style.display = "block";
                     return campos['fn'] = false;
                 }
             }
         }
-        document.getElementById("errfecha").style.display = "none";    
+        document.getElementById("errfecha").style.display = "none";
         return campos['fn'] = true;
-       
+
     } else {
-        document.getElementById("errfecha").style.display = "block";    
+        document.getElementById("errfecha").style.display = "block";
         return campos['fn'] = false;
     }
 }
 //Validacion Genero
 
 //Validacion al tecleo
-inputs.forEach((input) =>{
-    input.addEventListener('keyup',validarFormulario);
-    input.addEventListener('blur',validarFormulario);
-    
+inputs.forEach((input) => {
+    input.addEventListener('keyup', validarFormulario);
+    input.addEventListener('blur', validarFormulario);
+
 });
-select.addEventListener('keyup',validarSelect);
-select.addEventListener('blur',validarSelect);
+select.addEventListener('keyup', validarSelect);
+select.addEventListener('blur', validarSelect);
 //Funciones de Caracteres Letras o Numeros
 function Letras(string) {//solo letras
     var out = '';
@@ -217,7 +218,7 @@ function Numeros(string) {//Solo numeros
 
     //Retornar valor filtrado
     return out;
-} 
+}
 function NumerosLetras(string) {//Solo numeros
     var out = '';
     var filtro = '1234567890abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ';//Caracteres validos
@@ -230,18 +231,17 @@ function NumerosLetras(string) {//Solo numeros
 
     //Retornar valor filtrado
     return out;
-} 
+}
 //Envio de datos
-formulario.btnAceptar.addEventListener('click',(e)=>{
-    
-    if(select.value === "1" && campos.claveUnica && campos.nombre && campos.aPaterno && campos.aMaterno && campos.numHermanos && campos.cElectronico && campos.rfc && campos.rfc && campos.cp && campos.fn 
+formulario.btnAceptar.addEventListener('click', (e) => {
+
+    if (parseData >= 1 && campos.claveUnica && campos.nombre && campos.aPaterno && campos.aMaterno && campos.numHermanos && campos.cElectronico && campos.rfc && campos.rfc && campos.cp && campos.fn
         ||
-        select.value === "2"
-        && formulario.txtClaveUnica.value.length >= 3 && formulario.txtNombre.value.length >= 3 && formulario.txtAPaterno.value.length >= 3 && formulario.txtAMaterno.value.length >= 3 && formulario.numeroHermanos.value.length >0  && formulario.rfc.value.length >= 13 && formulario.codigoPostal.value.length >= 5 && campos.fn){
+        parseData >= 1
+        && formulario.txtClaveUnica.value.length >= 3 && formulario.txtNombre.value.length >= 3 && formulario.txtAPaterno.value.length >= 3 && formulario.txtAMaterno.value.length >= 3 && formulario.numeroHermanos.value.length > 0 && formulario.rfc.value.length >= 13 && formulario.codigoPostal.value.length >= 5 && campos.fn) {
         document.getElementById("warcampo").style.display = "none";
-    }else{
-        e.preventDefault();    
+    } else {
+        e.preventDefault();
         document.getElementById("warcampo").style.display = "block";
     }
 });
-
