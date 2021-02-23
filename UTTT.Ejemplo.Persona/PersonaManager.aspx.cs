@@ -138,7 +138,7 @@ namespace UTTT.Ejemplo.Persona
 
             ValidacionesServer();
 
-            if (datasd && datacu && datana && dataam && dataap && datahe && datace && datarc && datacp && datafn)
+            if (datasd && datacu && datana && dataam && dataap && datahe && datace && datarc && datacp)
             {
                 try
                 {
@@ -253,8 +253,8 @@ namespace UTTT.Ejemplo.Persona
                 }
                 catch (Exception _e)
                 {
-                    //this.showMessageException(_e.Message);
-                    this.Response.Redirect("~/Error404/ErrorPage.html", false);
+                    this.showMessageException(_e.Message);
+                    //this.Response.Redirect("~/Error404/ErrorPage.html", false);
                 }
                 //return;
             }
@@ -560,6 +560,7 @@ namespace UTTT.Ejemplo.Persona
                 }
             }
             //Fecha de Nacimiento
+            
             bool fechaValidation = VerifyDate(this.txtDobDat.Text);
             Regex regex = new Regex(@"(((0|1)[0-9]|2[0-9]|3[0-1])\/(0[1-9]|1[0-2])\/((19|20)\d\d))$");
 
@@ -567,6 +568,7 @@ namespace UTTT.Ejemplo.Persona
             bool isValid = regex.IsMatch(txtDobDat.Text.Trim());
 
             //Verify whether entered date is Valid date.
+            
             DateTime dt;
             isValid = DateTime.TryParseExact(txtDobDat.Text, "dd/MM/yyyy", new CultureInfo("en-GB"), DateTimeStyles.None, out dt);
             if (!isValid)
@@ -576,8 +578,8 @@ namespace UTTT.Ejemplo.Persona
             }
             else
             {
-                DateTime dtStart = DateTime.Parse(txtDobDat.Text);
-                TimeSpan sp = DateTime.Now - dtStart;
+
+                TimeSpan sp = DateTime.Now - this.txtDobDat.Text;
                 if (sp.Days < 18 * 365)
                 {
                     datafn = false;
@@ -588,6 +590,7 @@ namespace UTTT.Ejemplo.Persona
                     datafn = true;
                 }
             }
+            
 
         }
         //Validacion Numeros

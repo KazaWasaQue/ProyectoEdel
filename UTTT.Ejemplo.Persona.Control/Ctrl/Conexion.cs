@@ -25,7 +25,8 @@ namespace UTTT.Ejemplo.Persona.Control.Ctrl
             try
             {
                 //Data Source=DESKTOP-3UNHNT8;Initial Catalog=Manual;Integrated Security=True
-                SqlConnection conexion = new SqlConnection("data source=ManualProyecto.mssql.somee.com;Initial Catalog=ManualProyecto;persist Security info=True;user id=alexuwu_SQLLogin_1;password = jsz55va48s;");
+                //"data source=ManualProyecto.mssql.somee.com;Initial Catalog=ManualProyecto;persist Security info=True;user id=alexuwu_SQLLogin_1;password = jsz55va48s;"
+                SqlConnection conexion = new SqlConnection("Data Source=DESKTOP-3UNHNT8;Initial Catalog=Manual;Integrated Security=True");
                 return conexion;
             }
             catch (Exception _e)
