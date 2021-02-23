@@ -69,7 +69,7 @@
                         SortExpression="strAMaterno" />
                     <asp:BoundField DataField="CatSexo" HeaderText="Sexo"
                         SortExpression="CatSexo" />
-                    <asp:BoundField DataField="fechaNacimiento" HeaderText="Sexo"
+                    <asp:BoundField DataField="fechaNacimiento" HeaderText="Fecha Nacimiento"
                         SortExpression="fechaNacimiento" />
                     <asp:BoundField DataField="numHermanos" HeaderText="numero Hermanos"
                         SortExpression="numHermanos" />

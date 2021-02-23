@@ -138,7 +138,7 @@ namespace UTTT.Ejemplo.Persona
 
             ValidacionesServer();
 
-            if (datasd && datacu && datana && dataam && dataap && datahe && datace && datarc && datacp)
+            if (datasd && datacu && datana && dataam && dataap && datahe && datace && datarc && datacp && datafn)
             {
                 try
                 {
@@ -579,16 +579,7 @@ namespace UTTT.Ejemplo.Persona
             else
             {
 
-                TimeSpan sp = DateTime.Now - this.txtDobDat.Text;
-                if (sp.Days < 18 * 365)
-                {
-                    datafn = false;
-                    msgText += "Fecha Imcorrecta  debes ser mayor de 18";
-                }
-                else
-                {
-                    datafn = true;
-                }
+                datafn = true;
             }
             
 
