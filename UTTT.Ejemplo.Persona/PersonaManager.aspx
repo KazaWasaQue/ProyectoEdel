@@ -35,11 +35,14 @@
                 <asp:Label ID="lblAccion" runat="server" Text="Accion" Font-Bold="True"
                 
                 ></asp:Label>
-         
+         <div ID="msgWarningCampos" class="alert alert-warning" role="alert" Text="" value="" runat="server" visible="false">
+             
+  
+</div>
+                
             
          
           </div>
-          <br>
               <div>
     
           <div class="form-group "> 
@@ -67,7 +70,7 @@
               <asp:TextBox ID="txtClaveUnica" runat="server" 
                    ViewStateMode="Disabled" name="txtclave" 
                   CssClass="form-control shadow-sm p-3 mb-5 bg-body rounded"
-                  MaxLength="3" ontextchanged="My_OnTextChanged" autopostback="true" ></asp:TextBox>
+                  MaxLength="3"  ></asp:TextBox>
                   
               <!-- onkeypress="__doPostBack(this.name,'OnKeyPress');" -->
                 
@@ -201,7 +204,7 @@
                     <div id="errfecha" class="alert alert-danger" role="alert" style="display:none;">
                         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                         <span class="sr-only">Error:</span>
-                        Fecha Incorrecta, Formato: dia/mes/año
+                        Fecha Incorrecta debes ser mayor de 18, Formato: 00/00/0000 dia/mes/año
                       </div>
             
             </div>
@@ -211,7 +214,7 @@
                         <div id="warcampo" class="alert alert-danger" role="alert" style="display:none;">
                             <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                             <span class="sr-only">Error:</span>
-                            Rellene Todos los Campos
+                            Rellene Todos los Campos o Verifique los Campos
                           </div>
           
             <div id="msgError" class="alert alert-danger" role="alert" Text="" runat="server" visible="false">
@@ -225,10 +228,14 @@
               CssClass="btn btn-success" />
           <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" 
               onclick="btnCancelar_Click " ViewStateMode="Disabled"
-              CssClass=" btn btn-danger"  />
+              CssClass=" btn btn-danger" ONClientClick="return true;"
+ />
           
       </div>
-      </form>       
+      </form>      
+        <div class="input-group">
+
+        </div>
       
       
         

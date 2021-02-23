@@ -22,7 +22,7 @@ namespace UTTT.Ejemplo.Linq.Data.Properties {
                 return defaultInstance;
             }
         }
-        
+        /*
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
@@ -40,6 +40,21 @@ namespace UTTT.Ejemplo.Linq.Data.Properties {
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DESKTOP-3UNHNT8;Initial Catalog=Manual;Integrated Security=True")]
         public string ManualConnectionString {
             get {
+                return ((string)(this["ManualConnectionString"]));
+            }
+        }
+        */
+        /*"data source=ManualProyecto.mssql.somee.com;Initial Catalog=ManualProyecto;persist Security info=True;user id=alexuwu_SQLLogin_1;
+            password=jsz55va48s;"*/
+
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("data source=ManualProyecto.mssql.somee.com;Initial Catalog=ManualProyecto;persist Security info=True;user id=alexuwu_SQLLogin_1;password = jsz55va48s;")]
+        public string ManualConnectionString
+        {
+            get
+            {
                 return ((string)(this["ManualConnectionString"]));
             }
         }
