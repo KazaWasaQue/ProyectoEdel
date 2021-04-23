@@ -37,26 +37,37 @@ namespace UTTT.Ejemplo.Linq.Data.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DESKTOP-3UNHNT8;Initial Catalog=Manual;Integrated Security=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("data source=ManualProyecto.mssql.somee.com;Initial Catalog=ManualProyecto;persist" +
+            " Security info=True;user id=alexuwu_SQLLogin_1;\n            password=jsz55va48s;" +
+            "")]
         public string ManualConnectionString {
             get {
                 return ((string)(this["ManualConnectionString"]));
             }
         }
         */
-        /*"data source=ManualProyecto.mssql.somee.com;Initial Catalog=ManualProyecto;persist Security info=True;user id=alexuwu_SQLLogin_1;
-            password=jsz55va48s;"*/
-
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("data source=ManualProyecto.mssql.somee.com;Initial Catalog=ManualProyecto;persist Security info=True;user id=alexuwu_SQLLogin_1;password = jsz55va48s;")]
-        public string ManualConnectionString
-        {
-            get
-            {
-                return ((string)(this["ManualConnectionString"]));
+        [global::System.Configuration.DefaultSettingValueAttribute("data source=ManualProyecto.mssql.somee.com;Initial Catalog=ManualProyecto;persist" +
+            " Security info=True;user id=alexuwu_SQLLogin_1;\n            password=jsz55va48s;" +
+            "")]
+        public string ManualProyectoConnectionString {
+            get {
+                return ((string)(this["ManualProyectoConnectionString"]));
             }
         }
+        /*
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=ManualProyecto.mssql.somee.com;Initial Catalog=ManualProyecto;Persist" +
+            " Security Info=True;User ID=alexuwu_SQLLogin_1;Password=jsz55va48s")]
+        public string ManualProyectoConnectionString1 {
+            get {
+                return ((string)(this["ManualProyectoConnectionString1"]));
+            }
+        }
+        */
     }
 }

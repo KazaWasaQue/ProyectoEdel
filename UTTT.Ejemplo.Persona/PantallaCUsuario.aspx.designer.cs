@@ -10,7 +10,7 @@
 namespace UTTT.Ejemplo.Persona {
     
     
-    public partial class PersonaPrincipal {
+    public partial class PantallaCUsuario {
         
         /// <summary>
         /// form1 control.
@@ -40,22 +40,22 @@ namespace UTTT.Ejemplo.Persona {
         protected global::System.Web.UI.UpdatePanel UpdatePanel2;
         
         /// <summary>
-        /// ddlSexo control.
+        /// ddlUsuario control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlSexo;
+        protected global::System.Web.UI.WebControls.DropDownList ddlUsuario;
         
         /// <summary>
-        /// ddlEstadoCivil control.
+        /// ddlEstadoCuenta control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlEstadoCivil;
+        protected global::System.Web.UI.WebControls.DropDownList ddlEstadoCuenta;
         
         /// <summary>
         /// txtNombre control.
@@ -65,15 +65,6 @@ namespace UTTT.Ejemplo.Persona {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtNombre;
-        
-        /// <summary>
-        /// btnBuscar control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnBuscar;
         
         /// <summary>
         /// UpdatePanel20 control.

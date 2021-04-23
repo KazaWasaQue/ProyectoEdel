@@ -1,34 +1,22 @@
-﻿#region Using
-using System;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data.Linq;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using UTTT.Ejemplo.Linq.Data.Entity;
-using System.Data.Linq;
-using System.Linq.Expressions;
-using System.Collections;
 using UTTT.Ejemplo.Persona.Control;
 using UTTT.Ejemplo.Persona.Control.Ctrl;
-using System.Data;
-using System.Web.Services;
-using AjaxControlToolkit.Bundling;
-
-#endregion
 
 namespace UTTT.Ejemplo.Persona
 {
-    public partial class PersonaPrincipal : System.Web.UI.Page
+    public partial class PantallaCUsuario : System.Web.UI.Page
     {
-        #region Variables
-
         private SessionManager session = new SessionManager();
-       
-        #endregion
-
-        #region Eventos
-
+        private DataContext dcTemp = new DcGeneralDataContext();
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Request.Cookies["Login"] == null)
@@ -38,65 +26,61 @@ namespace UTTT.Ejemplo.Persona
             try
             {
                 Response.Buffer = true;
-                DataContext dcTemp = new DcGeneralDataContext();
+              
                 if (!this.IsPostBack)
                 {
-               
-                    List<CatSexo> lista = dcTemp.GetTable<CatSexo>().ToList();
-                    CatSexo catTemp = new CatSexo();
+                    List<Usuario> lista = dcTemp.GetTable<Usuario>().ToList();
+                    Usuario catTemp = new Usuario();
                     catTemp.id = -1;
-                    catTemp.strValor = "Todos";
+                    catTemp.usuario1 = "Todos";
                     lista.Insert(0, catTemp);
-                    this.ddlSexo.DataTextField = "strValor";
-                    this.ddlSexo.DataValueField = "id";
-                    this.ddlSexo.DataSource = lista;
-                    this.ddlSexo.DataBind();
+                    this.ddlUsuario.DataTextField = "usuario1";
+                    this.ddlUsuario.DataValueField = "id";
+                    this.ddlUsuario.DataSource = lista;
+                    this.ddlUsuario.DataBind();
 
-                    List<CatEstadoCivil> listec = dcTemp.GetTable<CatEstadoCivil>().ToList();
-                    CatEstadoCivil catTempEc = new CatEstadoCivil();
+                    List<StatusCuenta> listec = dcTemp.GetTable<StatusCuenta>().ToList();
+                    StatusCuenta catTempEc = new StatusCuenta();
                     catTempEc.id = -1;
-                    catTempEc.strValorEstadoCivil = "Todos";
+                    catTempEc.strEstado = "Todos";
                     listec.Insert(0, catTempEc);
-                    this.ddlEstadoCivil.DataTextField = "strValorEstadoCivil";
-                    this.ddlEstadoCivil.DataValueField = "id";
-                    this.ddlEstadoCivil.DataSource = listec;
-                    this.ddlEstadoCivil.DataBind();
+                    this.ddlEstadoCuenta.DataTextField = "strEstado";
+                    this.ddlEstadoCuenta.DataValueField = "id";
+                    this.ddlEstadoCuenta.DataSource = listec;
+                    this.ddlEstadoCuenta.DataBind();
                 }
             }
             catch (Exception _e)
             {
-                this.showMessage("Ha ocurrido un problema al cargar la página");               
+                this.showMessage("Ha ocurrido un problema al cargar la página");
             }
         }
+
 
         protected void ddlSexo_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {
                 this.DataSourcePersonaData.RaiseViewChanged();
+
+
             }
             catch (Exception _e)
             {
                 this.showMessage("Ha ocurrido un problema al buscar");
             }
         }
-        /*
-        protected void txtsuno_TextChanged(object sender, EventArgs e)
-        {
-            ScriptManager.RegisterClientScriptBlock(UpdatePanel2, this.GetType(), "", "alert('" + txtsuno.Text + "')", true);
-        }
-        */
+
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
             try
             {
-                this.session.Pantalla = "~/PersonaManager.aspx";
+                this.session.Pantalla = "~/PantallaUsuario.aspx";
                 Hashtable parametrosRagion = new Hashtable();
                 parametrosRagion.Add("idPersona", "0");
                 this.session.Parametros = parametrosRagion;
                 this.Session["SessionManager"] = this.session;
-                this.Response.Redirect(this.session.Pantalla, false);  
-                
+                this.Response.Redirect(this.session.Pantalla, false);
             }
             catch (Exception _e)
             {
@@ -106,7 +90,7 @@ namespace UTTT.Ejemplo.Persona
 
         protected void DataSourcePersona_Selecting(object sender, LinqDataSourceSelectEventArgs e)
         {
-            
+
             try
             {
                 DataContext dcConsulta = new DcGeneralDataContext();
@@ -117,26 +101,26 @@ namespace UTTT.Ejemplo.Persona
                 {
                     nombreBool = true;
                 }
-                if (this.ddlSexo.Text != "-1")
+                if (this.ddlUsuario.Text != "-1")
                 {
                     sexoBool = true;
                 }
-                if(this.ddlEstadoCivil.Text != "-1")
+                if (this.ddlEstadoCuenta.Text != "-1")
                 {
                     estadoCivil = true;
                 }
-                Expression<Func<UTTT.Ejemplo.Linq.Data.Entity.Persona, bool>> 
+                Expression<Func<UTTT.Ejemplo.Linq.Data.Entity.Usuario, bool>>
                     predicate =
                     (c =>
-                    ((sexoBool) ? c.idCatSexo == int.Parse(this.ddlSexo.Text) : true) &&
-                    ((estadoCivil) ? c.idCatEstadoCivil == int.Parse(this.ddlEstadoCivil.Text) : true) &&
-                    ((nombreBool) ? (((nombreBool) ? c.strNombre.Contains(this.txtNombre.Text.Trim()) : false)) : true)
+                    ((sexoBool) ? c.id == int.Parse(this.ddlUsuario.Text) : true) &&
+                    ((estadoCivil) ? c.statusId == int.Parse(this.ddlEstadoCuenta.Text) : true) &&
+                    ((nombreBool) ? (((nombreBool) ? c.usuario1.Contains(this.txtNombre.Text.Trim()) : false)) : true)
                     );
 
                 predicate.Compile();
 
-                List<UTTT.Ejemplo.Linq.Data.Entity.Persona> listaPersona =
-                    dcConsulta.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Persona>().Where(predicate).ToList();
+                List<UTTT.Ejemplo.Linq.Data.Entity.Usuario> listaPersona =
+                    dcConsulta.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Usuario>().Where(predicate).ToList();
                 e.Result = listaPersona;
             }
             catch (Exception _e)
@@ -144,21 +128,19 @@ namespace UTTT.Ejemplo.Persona
                 throw _e;
             }
         }
+
         protected void dgvPersonas_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             try
             {
-                int idPersona = int.Parse(e.CommandArgument.ToString());
+                int idUsuario = int.Parse(e.CommandArgument.ToString());
                 switch (e.CommandName)
                 {
                     case "Editar":
-                        this.editar(idPersona);
+                        this.editar(idUsuario);
                         break;
                     case "Eliminar":
-                        this.eliminar(idPersona);
-                        break;
-                    case "Direccion":
-                        this.direccion(idPersona);
+                        this.eliminar(idUsuario);
                         break;
                 }
             }
@@ -168,7 +150,7 @@ namespace UTTT.Ejemplo.Persona
             }
         }
 
-        #endregion 
+
 
         #region Metodos
 
@@ -181,7 +163,7 @@ namespace UTTT.Ejemplo.Persona
                 this.session.Parametros = parametrosRagion;
                 this.Session["SessionManager"] = this.session;
                 this.session.Pantalla = String.Empty;
-                this.session.Pantalla = "~/PersonaManager.aspx";
+                this.session.Pantalla = "~/PantallaUsuario.aspx";
                 this.Response.Redirect(this.session.Pantalla, false);
 
             }
@@ -191,17 +173,27 @@ namespace UTTT.Ejemplo.Persona
             }
         }
 
-        private void eliminar(int _idPersona)
+        private void eliminar(int _idUsuario)
         {
             try
             {
+
                 DataContext dcDelete = new DcGeneralDataContext();
-                UTTT.Ejemplo.Linq.Data.Entity.Persona persona = dcDelete.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Persona>().First(
-                    c => c.id == _idPersona);
-                dcDelete.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Persona>().DeleteOnSubmit(persona);
+                UTTT.Ejemplo.Linq.Data.Entity.Usuario usuario = dcDelete.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Usuario>().First(
+                    c => c.id == _idUsuario);
+                dcDelete.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Usuario>().DeleteOnSubmit(usuario);
                 dcDelete.SubmitChanges();
-                this.showMessage("El registro se elimino correctamente.");
-                this.DataSourcePersonaData.RaiseViewChanged();                
+                this.showMessage("El registro se agrego correctamente.");
+                this.DataSourcePersonaData.RaiseViewChanged();
+                List<Usuario> lista = dcTemp.GetTable<Usuario>().ToList();
+                Usuario catTemp = new Usuario();
+                catTemp.id = -1;
+                catTemp.usuario1 = "Todos";
+                lista.Insert(0, catTemp);
+                this.ddlUsuario.DataTextField = "usuario1";
+                this.ddlUsuario.DataValueField = "id";
+                this.ddlUsuario.DataSource = lista;
+                this.ddlUsuario.DataBind();
             }
             catch (Exception _e)
             {
@@ -209,23 +201,7 @@ namespace UTTT.Ejemplo.Persona
             }
         }
 
-        private void direccion(int _idPersona)
-        {
-            try
-            {
-                Hashtable parametrosRagion = new Hashtable();
-                parametrosRagion.Add("idPersona", _idPersona.ToString());
-                this.session.Parametros = parametrosRagion;
-                this.Session["SessionManager"] = this.session;
-                this.session.Pantalla = String.Empty;
-                this.session.Pantalla = "~/DireccionManager.aspx";
-                this.Response.Redirect(this.session.Pantalla, false);
-            }
-            catch (Exception _e)
-            {
-                throw _e;
-            }
-        }
+       
         protected void GridView_PreRender(object sender, EventArgs e)
         {
             GridView gv = (GridView)sender;
@@ -244,5 +220,4 @@ namespace UTTT.Ejemplo.Persona
         }
         #endregion
     }
-    
 }

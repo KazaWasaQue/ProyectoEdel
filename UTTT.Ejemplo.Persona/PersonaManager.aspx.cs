@@ -16,7 +16,10 @@ using UTTT.Ejemplo.Persona.Control.Ctrl;
 using System.Web.UI.HtmlControls;
 using System.Windows.Forms;
 using System.Globalization;
-
+using System.Web.Services;
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
 #endregion
 
 namespace UTTT.Ejemplo.Persona
@@ -29,6 +32,7 @@ namespace UTTT.Ejemplo.Persona
         private int idPersona = 0;
         private UTTT.Ejemplo.Linq.Data.Entity.Persona baseEntity;
         private DataContext dcGlobal = new DcGeneralDataContext();
+        private DataContext dcGlobalEC = new DcGeneralDataContext();
         private int tipoAccion = 0;
         private string msgText = "";
         Int32 rslcount = 0;
@@ -43,20 +47,22 @@ namespace UTTT.Ejemplo.Persona
         private bool datarc = false;
         private bool datacp = false;
         private bool datafn = false;
+        private bool dataev = false;
         #endregion
-
-
-
 
         #region Eventos
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Request.Cookies["Login"] == null)
+            {
+                this.Response.Redirect("~/Login.aspx", false);
+            }
             //I am writing this article on 9th January 2015  
             //Selection Date Start from 09th Jan 2005  
             //Current date can be select but not future date.  
             Calendar1.EndDate = DateTime.Now;
-            Calendar1.SelectedDate = DateTime.Now;
+            //Calendar1.SelectedDate = DateTime.Now;
             /*
             var ctrlName = Request.Params[Page.postEventSourceID];
             var args = Request.Params[Page.postEventArgumentID];
@@ -66,6 +72,13 @@ namespace UTTT.Ejemplo.Persona
                 validarClaveUnica(ctrlName, args);
             }
             */
+        
+            IDictionaryEnumerator allCaches = HttpRuntime.Cache.GetEnumerator();
+
+            while (allCaches.MoveNext())
+            {
+                Cache.Remove(allCaches.Key.ToString());
+            }
             try
             {
 
@@ -87,22 +100,38 @@ namespace UTTT.Ejemplo.Persona
 
                 if (!this.IsPostBack)
                 {
+                    List<UTTT.Ejemplo.Linq.Data.Entity.CatEstadoCivil> listados = dcGlobalEC.GetTable<CatEstadoCivil>().ToList();
+                    CatEstadoCivil catEC = new CatEstadoCivil();
+                    this.ddlEstadoCivil.DataTextField = "strValorEstadoCivil";
+                    this.ddlEstadoCivil.DataValueField = "id";
+                    this.ddlEstadoCivil.DataSource = listados;
+                    this.ddlEstadoCivil.DataBind();
+
+                    List<CatSexo> lista = dcGlobal.GetTable<CatSexo>().ToList();
+                    CatSexo catTemp = new CatSexo();
+                    this.ddlSexo.DataTextField = "strValor";
+                    this.ddlSexo.DataValueField = "id";
+                    this.ddlSexo.DataSource = lista;
+                    this.ddlSexo.DataBind();
                     if (this.session.Parametros["baseEntity"] == null)
                     {
                         this.session.Parametros.Add("baseEntity", this.baseEntity);
                     }
+                    /*
                     List<CatSexo> lista = dcGlobal.GetTable<CatSexo>().ToList();
                     CatSexo catTemp = new CatSexo();
-                    catTemp.id = -1;
-                    catTemp.strValor = "Seleccionar";
-                    lista.Insert(0, catTemp);
                     this.ddlSexo.DataTextField = "strValor";
                     this.ddlSexo.DataValueField = "id";
                     this.ddlSexo.DataSource = lista;
                     this.ddlSexo.DataBind();
 
-                    this.ddlSexo.SelectedIndexChanged += new EventHandler(ddlSexo_SelectedIndexChanged);
-                    this.ddlSexo.AutoPostBack = true;
+                  
+
+                    */
+                   
+
+          
+
                     if (this.idPersona == 0)
                     {
                         this.lblAccion.Text = "Agregar";
@@ -121,6 +150,7 @@ namespace UTTT.Ejemplo.Persona
                         this.rfc.Text = this.baseEntity.rfc;
 
                         this.setItem(ref this.ddlSexo, baseEntity.CatSexo.strValor);
+                        this.setItemCV(ref this.ddlEstadoCivil, baseEntity.CatEstadoCivil.strValorEstadoCivil);
                     }
                 }
 
@@ -138,7 +168,7 @@ namespace UTTT.Ejemplo.Persona
 
             ValidacionesServer();
 
-            if (datasd && datacu && datana && dataam && dataap && datahe && datace && datarc && datacp && datafn)
+            if (datasd && datacu && datana && dataam && dataap && datahe && datace && datarc && datacp && datafn && dataev)
             {
                 try
                 {
@@ -146,6 +176,7 @@ namespace UTTT.Ejemplo.Persona
 
                     DataContext dcGuardar = new DcGeneralDataContext();
                     UTTT.Ejemplo.Linq.Data.Entity.Persona persona = new Linq.Data.Entity.Persona();
+                    
                     if (this.idPersona == 0)
                     {
                         persona.strClaveUnica = this.txtClaveUnica.Text.Trim();
@@ -156,6 +187,7 @@ namespace UTTT.Ejemplo.Persona
                         persona.numHermanos = int.Parse(this.numeroHermanos.Text);
                         persona.carroElectronico = this.correoElectronico.Text.Trim();
                         persona.codigoPostal = int.Parse(this.codigoPostal.Text);
+                        persona.idCatEstadoCivil = int.Parse(this.ddlEstadoCivil.Text);
                         persona.rfc = this.rfc.Text.Trim();
                         persona.strAMaterno = this.txtAMaterno.Text.Trim();
                         String mensaje = String.Empty;
@@ -187,7 +219,7 @@ namespace UTTT.Ejemplo.Persona
                             this.correoElectronico.Text = string.Empty;
                             this.rfc.Text = string.Empty;
                             this.codigoPostal.Text = string.Empty;
-
+                            
                             this.msgError.Visible = true;
                             return;
                         }
@@ -209,6 +241,7 @@ namespace UTTT.Ejemplo.Persona
                         persona.numHermanos = int.Parse(this.numeroHermanos.Text);
                         persona.carroElectronico = this.correoElectronico.Text.Trim();
                         persona.codigoPostal = int.Parse(this.codigoPostal.Text);
+                        persona.idCatEstadoCivil = int.Parse(this.ddlEstadoCivil.Text);
                         persona.rfc = this.rfc.Text.Trim();
                         String mensaje = String.Empty;
 
@@ -253,8 +286,10 @@ namespace UTTT.Ejemplo.Persona
                 }
                 catch (Exception _e)
                 {
-                    this.showMessageException(_e.Message);
-                    //this.Response.Redirect("~/Error404/ErrorPage.html", false);
+                    ctrlEmail ctrlmail = new ctrlEmail();
+                    ctrlmail.sendEmail(_e.Message);
+                    //this.showMessageException(_e.Message);
+                    this.Response.Redirect("~/Error404/ErrorPage.html", false);
                 }
                 //return;
             }
@@ -279,7 +314,6 @@ namespace UTTT.Ejemplo.Persona
                 this.showMessage("Ha ocurrido un error inesperado");
             }
         }
-
         protected void ddlSexo_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -301,7 +335,6 @@ namespace UTTT.Ejemplo.Persona
         }
 
         #endregion
-
 
         public bool ValidacionSql(ref String _mensaje)
         {
@@ -351,7 +384,6 @@ namespace UTTT.Ejemplo.Persona
 
             return true;
         }
-
         public bool ValidacionHtml(ref String _mensaje)
         {
             ctrlSQL valida = new ctrlSQL();
@@ -406,15 +438,27 @@ namespace UTTT.Ejemplo.Persona
         protected void ValidacionesServer()
         {
             //Combo Box
-            if (int.Parse(this.ddlSexo.Text) >= 1)
-            {
-                datasd = true;
-            }
-            else
+            bool ddlSexoValidation = VerifyNumericValue(this.ddlSexo.Text);
+            if (ddlSexoValidation == false)
             {
                 datasd = false;
                 msgText += "Comvo Imvalido </br>";
             }
+            else
+            {
+                datasd = true;
+            }
+
+            bool ddlEstadoValidation = VerifyNumericValue(this.ddlEstadoCivil.Text);
+            if(ddlEstadoValidation == false)
+            {
+                dataev = false;
+            }
+            else
+            {
+                dataev = true;
+            }
+           
             //Clave Unica
             bool claveValidation = VerifyNumericValue(this.txtClaveUnica.Text);
             if (claveValidation == false)
@@ -424,14 +468,14 @@ namespace UTTT.Ejemplo.Persona
             }
             if (claveValidation == true)
             {
-                if (this.txtClaveUnica.Text.Length <= 2 || this.txtClaveUnica.Text.Length >= 4)
+                if (int.Parse(this.txtClaveUnica.Text) > 100 && int.Parse(this.txtClaveUnica.Text) < 1000)
                 {
-                    msgText += "Numero de Caracteres Invalido Clave Unica</br>";
-                    datacu = false;
+                    datacu = true;
                 }
                 else
                 {
-                    datacu = true;
+                    msgText += "Numero de Caracteres Invalido Clave Unica</br>";
+                    datacu = false;
                 }
             }
             //Nombre
@@ -540,6 +584,7 @@ namespace UTTT.Ejemplo.Persona
                     datarc = true;
                 }
             }
+            
             //Codigo Postal
             bool codigoPostalValidation = VerifyNumericValue(this.codigoPostal.Text);
             if (codigoPostalValidation == false)
@@ -549,18 +594,18 @@ namespace UTTT.Ejemplo.Persona
             }
             if (codigoPostalValidation == true)
             {
-                if (this.codigoPostal.Text.Length <= 4 || this.codigoPostal.Text.Length >= 6)
+                if (int.Parse(this.codigoPostal.Text) > 10000 && int.Parse(this.codigoPostal.Text) < 100000)
+                {
+                    datacp = true;
+                }
+                else
                 {
                     msgText += "Numero de Caracteres Invalidos Codigo Postal </br>";
                     datacp = false;
                 }
-                else
-                {
-                    datacp = true;
-                }
             }
             //Fecha de Nacimiento
-            
+
             bool fechaValidation = VerifyDate(this.txtDobDat.Text);
             Regex regex = new Regex(@"(((0|1)[0-9]|2[0-9]|3[0-1])\/(0[1-9]|1[0-2])\/((19|20)\d\d))$");
 
@@ -568,7 +613,7 @@ namespace UTTT.Ejemplo.Persona
             bool isValid = regex.IsMatch(txtDobDat.Text.Trim());
 
             //Verify whether entered date is Valid date.
-            
+
             DateTime dt;
             isValid = DateTime.TryParseExact(txtDobDat.Text, "dd/MM/yyyy", new CultureInfo("en-GB"), DateTimeStyles.None, out dt);
             if (!isValid)
@@ -581,7 +626,7 @@ namespace UTTT.Ejemplo.Persona
 
                 datafn = true;
             }
-            
+
 
         }
         //Validacion Numeros
@@ -682,7 +727,7 @@ namespace UTTT.Ejemplo.Persona
 
         #region Metodos
 
-        public void setItem(ref DropDownList _control, String _value)
+        public void setItem(ref AjaxControlToolkit.ComboBox _control, String _value)
         {
             foreach (ListItem item in _control.Items)
             {
@@ -694,7 +739,20 @@ namespace UTTT.Ejemplo.Persona
             }
             _control.Items.FindByText(_value).Selected = true;
         }
-
+        public void setItemCV(ref AjaxControlToolkit.ComboBox _control, String _value)
+        {
+            foreach (ListItem item in _control.Items)
+            {
+                if (item.Value == _value)
+                {
+                    item.Selected = true;
+                    break;
+                }
+            }
+            _control.Items.FindByText(_value).Selected = true;
+        }
         #endregion
-    }
+       
+        }
+    
 }

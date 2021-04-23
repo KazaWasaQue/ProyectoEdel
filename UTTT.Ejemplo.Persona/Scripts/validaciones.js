@@ -3,7 +3,7 @@ window.addEventListener('load', validarFormulario);
 const formulario = document.getElementById("form1");
 const inputs = document.querySelectorAll('#form1 input');
 const select = document.getElementById('ddlSexo');
-var parseData = parseInt(document.getElementById('ddlSexo').value);
+
 //Regular exprexions 1
 const expresiones = {
     correo: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -30,12 +30,13 @@ var validarFormulario = (e) => {
             if (e.target.value.length >= 4) {
                 e.target.value = e.target.value.slice(0, 4);
             }
-            if (e.target.value.length < 3) {
-                campos['claveUnica'] = false;
-                document.getElementById("errcu").style.display = "block";
-            } else {
+            var parseCU = parseInt(e.target.value);
+            if (parseCU > 100) {
                 campos['claveUnica'] = true;
                 document.getElementById("errcu").style.display = "none";
+            } else {
+                campos['claveUnica'] = false;
+                document.getElementById("errcu").style.display = "block";
             }
             break;
         case "txtNombre":
@@ -116,12 +117,13 @@ var validarFormulario = (e) => {
             break;
         case "codigoPostal":
             e.target.value = Numeros(e.target.value);
-            if (e.target.value.length < 5) {
-                campos['cp'] = false;
-                document.getElementById("errcp").style.display = "block";
-            } else {
+            var numeroParseado = parseInt(e.target.value);
+            if (numeroParseado > 10000) {
                 campos['cp'] = true;
                 document.getElementById("errcp").style.display = "none";
+            } else {
+                campos['cp'] = false;
+                document.getElementById("errcp").style.display = "block";
             }
             break;
         case "txtDobDat":
@@ -159,7 +161,8 @@ function ValidateDOB(fecha) {
         if (dtCurrent.getFullYear() - dtDOB.getFullYear() < 18) {
             document.getElementById("errfecha").style.display = "block";
 
-            return campos['fn'] = false;
+            campos['fn'] = false;
+            return false;
         }
 
         if (dtCurrent.getFullYear() - dtDOB.getFullYear() == 18) {
@@ -167,22 +170,27 @@ function ValidateDOB(fecha) {
             //CD: 11/06/2018 and DB: 15/07/2000. Will turned 18 on 15/07/2018.
             if (dtCurrent.getMonth() < dtDOB.getMonth()) {
                 document.getElementById("errfecha").style.display = "block";
-                return campos['fn'] = false;
+                campos['fn'] = false;
+                return false;
             }
             if (dtCurrent.getMonth() == dtDOB.getMonth()) {
                 //CD: 11/06/2018 and DB: 15/06/2000. Will turned 18 on 15/06/2018.
                 if (dtCurrent.getDate() < dtDOB.getDate()) {
                     document.getElementById("errfecha").style.display = "block";
-                    return campos['fn'] = false;
+                    campos['fn'] = false;
+                    return false;
                 }
             }
         }
         document.getElementById("errfecha").style.display = "none";
-        return campos['fn'] = true;
+        campos['fn'] = true;
+        return true;
+
 
     } else {
         document.getElementById("errfecha").style.display = "block";
-        return campos['fn'] = false;
+        campos['fn'] = false;
+        return false;
     }
 }
 //Validacion Genero
@@ -232,16 +240,25 @@ function NumerosLetras(string) {//Solo numeros
     //Retornar valor filtrado
     return out;
 }
-//Envio de datos
+var fechaval = ValidateDOB(document.getElementById('txtDobDat').value);
+var parseData = parseInt(document.getElementById('ddlSexo').value);
+    
+//Envio de 
 formulario.btnAceptar.addEventListener('click', (e) => {
 
-    if (parseData >= 1 && campos.claveUnica && campos.nombre && campos.aPaterno && campos.aMaterno && campos.numHermanos && campos.cElectronico && campos.rfc && campos.rfc && campos.cp && campos.fn
+    if (dropList && campos.claveUnica && campos.nombre && campos.aPaterno && campos.aMaterno && campos.numHermanos && campos.cElectronico && campos.rfc && campos.rfc && campos.cp && campos.fn
         ||
         parseData >= 1
-        && formulario.txtClaveUnica.value.length >= 3 && formulario.txtNombre.value.length >= 3 && formulario.txtAPaterno.value.length >= 3 && formulario.txtAMaterno.value.length >= 3 && formulario.numeroHermanos.value.length > 0 && formulario.rfc.value.length >= 13 && formulario.codigoPostal.value.length >= 5 && campos.fn) {
+        && formulario.txtClaveUnica.value.length >= 3 && formulario.txtNombre.value.length >= 3 && formulario.txtAPaterno.value.length >= 3 && formulario.txtAMaterno.value.length >= 3 && formulario.numeroHermanos.value.length > 0 && formulario.rfc.value.length >= 13 && formulario.codigoPostal.value.length >= 5 && fechaval) {
         document.getElementById("warcampo").style.display = "none";
     } else {
         e.preventDefault();
         document.getElementById("warcampo").style.display = "block";
     }
 });
+
+
+
+
+
+

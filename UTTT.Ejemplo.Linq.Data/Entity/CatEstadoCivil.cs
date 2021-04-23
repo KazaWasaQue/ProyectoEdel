@@ -5,13 +5,11 @@ using System.Text;
 
 namespace UTTT.Ejemplo.Linq.Data.Entity
 {
-    public partial class Persona
+    public partial class CatEstadoCivil
     {
-
         public override string ToString()
         {
-            var c = this.strNombre + " " + this.strAPaterno + " " + this.strAMaterno;
-            return c;
+            return this.strValorEstadoCivil;
         }
     }
 }

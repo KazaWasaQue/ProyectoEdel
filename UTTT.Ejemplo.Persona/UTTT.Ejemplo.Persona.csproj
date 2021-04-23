@@ -83,6 +83,10 @@
   <ItemGroup>
     <Content Include="controlformato.css" />
     <Content Include="css\css404.css" />
+    <Content Include="css\maim.css" />
+    <Content Include="css\mainpassword.css" />
+    <Content Include="css\mainprincipal.css" />
+    <Content Include="css\manager.css" />
     <Content Include="Default.aspx" />
     <Content Include="direccion.aspx" />
     <Content Include="DireccionExtraManager.aspx" />
@@ -93,6 +97,12 @@
     <Content Include="Images\printrecord_16x16.png" />
     <Content Include="javaScripFile.js" />
     <Content Include="javaScripPage.aspx" />
+    <Content Include="Login.aspx" />
+    <Content Include="PantallaCorreoContrasena.aspx" />
+    <Content Include="PantallaCUsuario.aspx" />
+    <Content Include="PantallaPrincipal.aspx" />
+    <Content Include="PantallaRecuperarContrasena.aspx" />
+    <Content Include="PantallaUsuario.aspx" />
     <Content Include="PersonaManager.aspx" />
     <Content Include="PersonaPrincipal.aspx" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
@@ -145,12 +155,54 @@
     <Compile Include="javaScripPage.aspx.designer.cs">
       <DependentUpon>javaScripPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
     <Compile Include="paginaMaster.Master.cs">
       <DependentUpon>paginaMaster.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="paginaMaster.Master.designer.cs">
       <DependentUpon>paginaMaster.Master</DependentUpon>
+    </Compile>
+    <Compile Include="PantallaCorreoContrasena.aspx.cs">
+      <DependentUpon>PantallaCorreoContrasena.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PantallaCorreoContrasena.aspx.designer.cs">
+      <DependentUpon>PantallaCorreoContrasena.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PantallaCUsuario.aspx.cs">
+      <DependentUpon>PantallaCUsuario.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PantallaCUsuario.aspx.designer.cs">
+      <DependentUpon>PantallaCUsuario.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PantallaPrincipal.aspx.cs">
+      <DependentUpon>PantallaPrincipal.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PantallaPrincipal.aspx.designer.cs">
+      <DependentUpon>PantallaPrincipal.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PantallaRecuperarContrasena.aspx.cs">
+      <DependentUpon>PantallaRecuperarContrasena.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PantallaRecuperarContrasena.aspx.designer.cs">
+      <DependentUpon>PantallaRecuperarContrasena.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PantallaUsuario.aspx.cs">
+      <DependentUpon>PantallaUsuario.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PantallaUsuario.aspx.designer.cs">
+      <DependentUpon>PantallaUsuario.aspx</DependentUpon>
     </Compile>
     <Compile Include="PersonaManager.aspx.cs">
       <DependentUpon>PersonaManager.aspx</DependentUpon>

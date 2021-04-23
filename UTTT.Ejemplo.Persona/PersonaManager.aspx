@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PersonaManager.aspx.cs" Inherits="UTTT.Ejemplo.Persona.PersonaManager" debug=false%>
+﻿<%@ Page EnableEventValidation="false"  Language="C#" AutoEventWireup="true" CodeBehind="PersonaManager.aspx.cs" Inherits="UTTT.Ejemplo.Persona.PersonaManager" debug=false%>
     <%@ Register Assembly="ajaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>  
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <meta charset="utf-8">
-    <title></title>
+    
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -15,20 +15,18 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
 
-    <style type="text/css">
-        .table-condensed
-        {
-            width: 200px;
-            height: 10px;
-            font-size: 12px;
-        }
-    </style>
-
-
+    <link rel="Stylesheet" href="css/manager.css"/>
+ 
+   
 </head>
 <body>
-    <div class="container ">
-        <form id="form1" runat="server" >
+    <div class="container">
+
+    
+    <div class="box">
+
+    
+    <form id="form1" runat="server" >
             <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
             
             <div>
@@ -46,13 +44,27 @@
               <div>
     
           <div class="form-group "> 
-              <label for="ddlSexo">Sexo: </label>
-              <asp:DropDownList ID="ddlSexo" runat="server" 
-                  onselectedindexchanged="ddlSexo_SelectedIndexChanged" 
-                  CssClass="form-control ">
-              </asp:DropDownList>
+              <label for="ddlSexo">Sexo Y Estado Civil: </label>
+              
+              <br />
+              <ajaxToolkit:ComboBox ID="ddlSexo" runat="server" 
+                  AutoPostBack="False"
+     DropDownStyle="DropDownList"
+     AutoCompleteMode="SuggestAppend"
+     CaseSensitive="True"
+     CssClass="AquaStyle"
+     ItemInsertLocation="Append"
+                  > 
+</ajaxToolkit:ComboBox>
 
-                          
+              <ajaxToolkit:ComboBox ID="ddlEstadoCivil" runat="server" 
+                  AutoPostBack="False"
+     DropDownStyle="DropDownList"
+     AutoCompleteMode="SuggestAppend"
+     CaseSensitive="True"
+     ItemInsertLocation="Append"
+                  > 
+</ajaxToolkit:ComboBox>
               
                 <div id="errge" style="display:none;" class="alert alert-danger" role="alert" >
                     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" ></span>
@@ -65,6 +77,7 @@
           </div>
           <div class="form-group"> 
               <label for="txtClaveUnica">Clave unica: </label>
+              
               <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Campo Requerido" ControlToValidate="txtClaveUnica">
 </asp:RequiredFieldValidator> 
               <asp:TextBox ID="txtClaveUnica" runat="server" 
@@ -180,7 +193,7 @@
               </div>
           
           </div>
-
+        
           <div class="form-group">
             <label for="codigoPostal">Codigo Postal</label>
 <asp:RequiredFieldValidator ID="RequiredFieldValidator8" runat="server" ErrorMessage="Campo Requerido" ControlToValidate="codigoPostal">
@@ -237,14 +250,59 @@
 
         </div>
       
-      
-        
-      
+      </div>
     </div>
     
     <script type="text/javascript" src="Scripts/validaciones.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+     /*
+        $(function () {
+            $("#ddlSexo").change(function () {
+                alert("Changed");
+                // call webmethod in here
+                $.ajax({
+        type: "POST",
+        url: "PersonaManager.aspx/consultaGlobalSexo",
+        data: '{}',
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (r) {
+            var ddlCustomers = $("[id*=ddlSexo]");
+            ddlCustomers.empty().append('<option selected="selected" value="0">Please select</option>');
+            $.each(r.d, function () {
+                ddlCustomers.append($("<option></option>").val(this['Value']).html(this['Text']));
+            });
+        }
+    });
+            });
+        })
+        */
+          $(document).ready(function () {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                //url is the path of our web method (Page name/function name)
+                url: "PersonaManager.aspx/CatSexoDropDownList",
+                data: "{}",
+                dataType: "json",
+                //called on jquery ajax call success
+                success: function (result) {
+                    $('#ddlDepartments').empty();
+                    $('#ddlDepartments').append("<option value='0'>--Select--</option>");
+                    $.each(result.d, function (key, value) {
+                        $("#ddlDepartments").append($("<option></option>").val(value.Id).html(value.StrValor));
+                    });
+                },
+                //called on jquery ajax call failure
+                error: function ajaxError(result) {
+                    alert(result.status + ' : ' + result.statusText);
+                }
+            });
+        });
+        </script>
 </body>
 </html>

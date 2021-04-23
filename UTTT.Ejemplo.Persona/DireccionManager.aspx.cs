@@ -65,8 +65,65 @@ namespace UTTT.Ejemplo.Persona
             }
         }
 
+        /*
+         * <asp:CustomValidator ID="CustomValidator5" runat="server" OnServerValidate="ClaveUnicaCustomValidator"  
+            ControlToValidate="txtClaveUnica"   
+            ErrorMessage="Caracteres no Validos"   
+            SetFocusOnError="True"></asp:CustomValidator>
+         
+            protected void ClaveUnicaCustomValidator(object source, ServerValidateEventArgs args)
+            {
+            if (int.Parse(txtClaveUnica.Text) > 100 && int.Parse(txtClaveUnica.Text) < 1000)
+            {
+                args.IsValid = true;
+            }
+            else
+            {
+                args.IsValid = false;
+            }
+            }
+
+
+
+            protected static bool VerifyEmailID(string email)
+        {
+            string expresion;
+            expresion = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
+            if (Regex.IsMatch(email, expresion))
+            {
+                if (Regex.Replace(email, expresion, string.Empty).Length == 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+            bool emailValidation = VerifyEmailID(this.correoElectronico.Text);
+            if (emailValidation == false)
+            {
+                msgText += " Campo Email Incorrecto </br>";
+                datace = false;
+            }
+            else
+            {
+                datace = true;
+            }
+
+
+
+             */
+
         protected void LinqDataSourceDireccion_Selecting(object sender, LinqDataSourceSelectEventArgs e)
         {
+
             try
             {
                 DataContext dcConsulta = new DcGeneralDataContext();               

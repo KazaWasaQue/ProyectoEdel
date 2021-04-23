@@ -244,7 +244,7 @@ namespace UTTT.Ejemplo.Persona.WebServices
                     //asignamos el objeto persona uno por uno
                     UTTT.Ejemplo.Persona.Data.Entity.Direccion temp = new Data.Entity.Direccion();
                     temp.Id = listaDireccion[i].id;
-                    temp.IdPersona = listaDireccion[i].idPersona;
+                   // temp.IdPersona = listaDireccion[i].idPersona;
                     temp.StrCalle = listaDireccion[i].strCalle;
                     temp.StrColonia = listaDireccion[i].strColonia;
                     temp.StrNumero = listaDireccion[i].strNumero;
@@ -270,7 +270,7 @@ namespace UTTT.Ejemplo.Persona.WebServices
                 UTTT.Ejemplo.Linq.Data.Entity.Direccion direccion = dcTemp.GetTable<Direccion>().First(c => c.id == _direccion.Id);
                 UTTT.Ejemplo.Persona.Data.Entity.Direccion temp = new Data.Entity.Direccion();
                 temp.Id = direccion.id;
-                temp.IdPersona = direccion.idPersona;
+                //temp.IdPersona = direccion.idPersona;
                 temp.StrCalle = direccion.strCalle;
                 temp.StrColonia = direccion.strColonia;
                 temp.StrNumero = direccion.strNumero;                
@@ -289,15 +289,15 @@ namespace UTTT.Ejemplo.Persona.WebServices
 
         #region Catalogo Sexo
 
-        [WebMethod]
+        [WebMethod()]
         public UTTT.Ejemplo.Persona.Data.Entity.CatSexo[] consultaGlobalSexo()
         {
             try
             {
                 DataContext dcTemp = new DcGeneralDataContext();
-                List<UTTT.Ejemplo.Linq.Data.Entity.CatSexo> listaSexo =            dcTemp.GetTable<UTTT.Ejemplo.Linq.Data.Entity.CatSexo>().ToList();
+                List<UTTT.Ejemplo.Linq.Data.Entity.CatSexo> listaSexo = dcTemp.GetTable<UTTT.Ejemplo.Linq.Data.Entity.CatSexo>().ToList();
                 UTTT.Ejemplo.Persona.Data.Entity.CatSexo[] tempSexo = new Data.Entity.CatSexo[listaSexo.Count()];
-
+                
                 for (int i = 0; i < listaSexo.Count(); i++)
                 {
                     //asignamos el objeto persona uno por uno
@@ -307,8 +307,8 @@ namespace UTTT.Ejemplo.Persona.WebServices
                     tempSexo[i] = temp;
                 }
                 dcTemp.Dispose();
-                return tempSexo;
-
+                return tempSexo.ToArray();
+                
             }
             catch (Exception _e)
             {
